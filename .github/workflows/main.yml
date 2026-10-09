@@ -15,13 +15,16 @@ jobs:
     steps:
       - uses: actions/checkout@v7
 
-      - uses: jdx/mise-action@v5
+      - uses: pnpm/action-setup@v6
 
-      - name: Setup
-        run: make setup
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
-      - name: Lint
-        run: make lint
+      - run: make setup
+      - run: make lint
+      - run: make test
 
-      - name: Test
-        run: make test
+      - uses: hexlet-components/hello-from-hexlet-action@release
